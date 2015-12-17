@@ -1,0 +1,16 @@
+{
+  "name": "samson/simplerknppaginator-bundle",
+  "autoload": {
+    "psr-4": {
+      "Samson\\Bundle\\SimplerKNPPaginatorBundle\\": ""
+    }
+  },
+  "require": {
+    "data-dog/pager-bundle": "^0.2.4",
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}
