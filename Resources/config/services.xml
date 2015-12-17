@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <!--
+    <parameters>
+        <parameter key="samson_simpler_knp_paginator.example.class">Samson\SimplerKNPPaginatorBundle\Example</parameter>
+    </parameters>
+    -->
+    <services>
+        <service
+                class="Samson\Bundle\SimplerKNPPaginatorBundle\Subscriber\SimplerPaginationSubscriber"
+                id="samson_simple_knppaginator.subscriber.simpler_pagination_subscriber">
+            <call method="setRequest">
+                <argument type="service" id="request" on-invalid="null" strict="false"/>
+            </call>
+        </service>
+    </services>
+</container>
