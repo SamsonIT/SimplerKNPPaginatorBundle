@@ -6,7 +6,7 @@
     }
   },
   "require": {
-    "data-dog/pager-bundle": "^0.2.4",
+    "data-dog/pager-bundle": "^0.2.4"
   },
   "extra": {
     "branch-alias": {
