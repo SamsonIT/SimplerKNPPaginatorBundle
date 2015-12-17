@@ -1,6 +1,6 @@
 SimplerKNPPaginator
 =====
-KNP Paginator Evensubscriber to paginate stuff fast
+KNP Paginator Eventsubscriber to paginate stuff fast.
 
 How it works
 ===
