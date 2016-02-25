@@ -22,9 +22,37 @@ class SimplerPaginationSubscriber implements EventSubscriberInterface
      */
     private $request;
 
+    /**
+     * @var Classname to override the pagination
+     */
+    private $paginationOverrideClassname = null;
+
+    private $defaultPaginationClassname = 'DataDog\PagerBundle\Pagination';
+
+    private $paginationExtraOptions = [];
+
     public function __construct()
     {
 
+    }
+
+    public function addPaginationExtraOption($key, $value)
+    {
+        $this->paginationExtraOptions[$key] = $value;
+    }
+
+    /**
+     * @param Classname $paginationOverrideClassname
+     */
+    public function setPaginationOverrideClassname($paginationOverrideClassname)
+    {
+        $this->paginationOverrideClassname = $paginationOverrideClassname;
+    }
+
+    public function resetOverrides()
+    {
+        $this->paginationOverrideClassname = null;
+        $this->paginationExtraOptions = [];
     }
 
     /**
@@ -66,7 +94,10 @@ class SimplerPaginationSubscriber implements EventSubscriberInterface
             $options['sorters'] = [$event->options['defaultSortFieldName'] => $event->options['defaultSortDirection']];
         }
 
-        $items = new Pagination($qb, $this->request, $options);
+        $classname = $this->paginationOverrideClassname ? $this->paginationOverrideClassname : $this->defaultPaginationClassname;
+        $options = array_merge($options, $this->paginationExtraOptions);
+
+        $items = new $classname($qb, $this->request, $options);
         $event->count = $items->total();
         $event->items = iterator_to_array($items);
         $event->stopPropagation();
