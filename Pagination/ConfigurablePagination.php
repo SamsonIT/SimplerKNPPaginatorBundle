@@ -166,7 +166,12 @@ class ConfigurablePagination extends \ArrayIterator
         }
         $counter->select($qb->expr()->countDistinct($qb->getRootAlias()));
 
-        $this->page = max(abs(intval((isset($params['page']) ? $params['page'] : 1))), 1);
+        // again, this annoying dependency on the Request.
+        if (array_key_exists('page', $options)) {
+            $this->page = $options['page'];
+        } else {
+            $this->page = max(abs(intval((isset($params['page']) ? $params['page'] : 1))), 1);
+        }
         $this->limit = abs(intval((isset($params['limit']) ? $params['limit'] : $limit)));
         // ensure upper bound
         $this->limit = min($this->limit, self::$maxPerPage);
