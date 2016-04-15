@@ -87,7 +87,8 @@ class SimplerPaginationSubscriber implements EventSubscriberInterface
 
         $this->appendQuery($qb, $this->request->query->get($filterValueParameterName, []), $this->request->query->get($filterFieldParameterName, []));
 
-        $options = ['page' => $event->getOffset(), 'limit' => $event->getLimit()];
+        $page = 0 == $event->getOffset() ? 1 : ceil($event->getOffset() / $event->getLimit()) + 1;
+        $options = ['page' => $page, 'limit' => $event->getLimit()];
         if ($this->request->query->has('sort')) {
             $options['sorters'] = [$this->request->query->get('sort') => $this->request->query->get('direction')];
         } elseif (array_key_exists('defaultSortFieldName', $event->options)) {
