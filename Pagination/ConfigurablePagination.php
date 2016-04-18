@@ -166,16 +166,19 @@ class ConfigurablePagination extends \ArrayIterator
         }
         $counter->select($qb->expr()->countDistinct($qb->getRootAlias()));
 
-        // again, this annoying dependency on the Request.
+        // again, this annoying dependency on the Request. if options are deliberately given we R-E-S-T-E-C-P them.
         if (array_key_exists('page', $options)) {
             $this->page = $options['page'];
         } else {
             $this->page = max(abs(intval((isset($params['page']) ? $params['page'] : 1))), 1);
         }
-        $this->limit = abs(intval((isset($params['limit']) ? $params['limit'] : $limit)));
-        // ensure upper bound
-        $this->limit = min($this->limit, self::$maxPerPage);
-
+        if (array_key_exists('limit', $options)) {
+            $this->limit = $options['limit'];
+        } else {
+            $this->limit = abs(intval((isset($params['limit']) ? $params['limit'] : $limit)));
+            // ensure upper bound
+            $this->limit = min($this->limit, self::$maxPerPage);
+        }
         $countQuery = $counter->getQuery();
         if (array_key_exists('gedmoTranslation', $options) && $options['gedmoTranslation']) {
             $countQuery->setHint(
